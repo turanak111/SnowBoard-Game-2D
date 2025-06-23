@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 
 public class GameState : MonoBehaviour
 {
+    [SerializeField] GameObject panel;
     Rigidbody2D rigidbody2D;
     void Start()
     {
@@ -18,20 +21,29 @@ public class GameState : MonoBehaviour
         if (collision.tag == "Kar")
         {
             Debug.Log("you lose");
-            SceneManager.LoadScene("SampleScene");
+            Invoke("PlayerDied", 0.2f);
+      
+
         }
         if (collision.tag == "Finish")
         {
             Debug.Log("you win");
-            SceneManager.LoadScene("SampleScene");
+            Invoke("EndGame", 0.2f);
         }
-
-
-
     }
-    void LoadSceneAgain()
+    public void LoadScene()
     {
-        
+        SceneManager.LoadScene("SampleScene");
+        Time.timeScale = 1;
     }
-  
+    void EndGame()
+    {
+        Time.timeScale = 0;
+    }
+    void PlayerDied()
+    {
+        panel.SetActive(true);
+        Time.timeScale = 0;
+    }
 }
+
